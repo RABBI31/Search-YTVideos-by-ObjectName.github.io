@@ -4,7 +4,8 @@ import Searchbar from './Searchbar'
 import Videolist from './Videolist'
 
 class App extends React.Component{
-     state = {videos: []}
+     state = {videos: [] , selectedVideo: null};
+     
     onmyInputSubmit = async myInput =>{
        const response = await youtube.get('/search', {
             params : {
@@ -15,10 +16,14 @@ class App extends React.Component{
 
         this.setState({videos : response.data.items})
     };
+
+    onVideoSelect =(video)=>{
+        console.log('For the tap',  video);
+    };
     render() {
         return(
-            <div><Searchbar onFormSubmit = {this.onmyInputSubmit}/>
-            <Videolist videos = {this.onmyInputSubmit}/>
+            <div className='ui container'><Searchbar onFormSubmit = {this.onmyInputSubmit}/>
+            <Videolist onVideoSelect={this.onVideoSelect} videos = {this.state.videos}/>
             </div>
         )
     }
